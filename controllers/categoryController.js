@@ -69,11 +69,11 @@ module.exports.updateCategory = async (req, res) => {
     try {
        
         const { categoryId } = req.params;
-        const { category } = req.body;
+        const { category,type,parentId } = req.body;
 
         const updatedCategory = await Category.findByIdAndUpdate(
             categoryId,
-            { category },
+            { category,type,parentId },
             { new: true}
         );
 
