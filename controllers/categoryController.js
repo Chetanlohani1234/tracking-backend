@@ -44,7 +44,7 @@ module.exports.getCategoryById = async (req, res) => {
     try {
         const { categoryId } = req.params;
 
-        const category = await Category.findById(categoryId);
+        const category = await Category.findById(categoryId).populate("parentId");
 
         if (!category) {
             response.success = false;
