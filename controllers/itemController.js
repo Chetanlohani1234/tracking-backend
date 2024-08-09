@@ -1,15 +1,46 @@
 const AllItem = require('../models/itemModel');
 
 // Create a new item
+// const createItem = async (req, res) => {
+//   try {
+//     const item = new AllItem(req.body);
+//     await item.save();
+//     res.status(201).json(item);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
 const createItem = async (req, res) => {
   try {
-    const item = new AllItem(req.body);
-    await item.save();
-    res.status(201).json(item);
+      const post = new Post({
+          name: req.body.name,
+          price: req.body.price,
+          description: req.body.description,
+          category: req.body.category,
+          subcategory: req.body.subcategory,
+      });
+
+      if (!req.file) {
+          throw new Error('No file uploaded');
+      }
+
+      const image = req.file;
+
+      const imagePath = {
+          path: image.path,
+          url: `"https://tracking-backend-ull9.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
+      };
+
+      post.image = imagePath;
+
+      const postData = await post.save();
+
+      res.status(200).send({ success: true, msg: 'Item Data Successfully', data: postData });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+      res.status(400).send({ success: false, msg: error.message });
   }
-};
+}
 
 // Get items by subcategory and optional parentId
 // const getItemsBySubcategory = async (req, res) => {
