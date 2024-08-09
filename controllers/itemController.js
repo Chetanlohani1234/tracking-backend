@@ -13,7 +13,7 @@ const AllItem = require('../models/itemModel');
 
 const createItem = async (req, res) => {
   try {
-      const post = new Post({
+      const post = new AllItem({
           name: req.body.name,
           price: req.body.price,
           description: req.body.description,
@@ -41,6 +41,8 @@ const createItem = async (req, res) => {
       res.status(400).send({ success: false, msg: error.message });
   }
 }
+
+
 
 // Get items by subcategory and optional parentId
 // const getItemsBySubcategory = async (req, res) => {

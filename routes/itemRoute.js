@@ -17,7 +17,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Create a new item
-app.post('/add', Controller.createItem);
+//app.post('/add', Controller.createItem);
+
+app.post('/add',upload.single('image'),Controller.createItem);
+
 
 // Get items by subcategory (and optional parentId)
 app.get('/getAll', Controller.getItems);
