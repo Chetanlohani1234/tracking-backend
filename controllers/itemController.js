@@ -29,7 +29,7 @@ const createItem = async (req, res) => {
 
       const imagePath = {
           path: image.path,
-          url: `"https://tracking-backend-ull9.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
+          url: `https://tracking-backend-ull9.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
       };
 
       post.image = imagePath;
