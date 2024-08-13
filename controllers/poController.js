@@ -5,7 +5,12 @@ exports.createPurchaseOrder = async (req, res) => {
     try {
         const purchaseOrder = new PurchaseOrder(req.body);
         await purchaseOrder.save();
-        res.status(201).json(purchaseOrder);
+        // Format the date
+        const formattedOrder = {
+            ...purchaseOrder.toObject(),
+            date: new Date(purchaseOrder.date).toISOString().split('T')[0] // Extract date in YYYY-MM-DD format
+        };
+        res.status(201).json(formattedOrder);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -14,8 +19,16 @@ exports.createPurchaseOrder = async (req, res) => {
 // Get all Purchase Orders
 exports.getAllPurchaseOrders = async (req, res) => {
     try {
-        const purchaseOrders = await PurchaseOrder.find().populate('supplier').populate('Items');
-        res.status(200).json(purchaseOrders);
+        const purchaseOrders = await PurchaseOrder.find().populate('supplier').populate('Items').populate({path: 'Items',populate: {path: 'category', model: 'Category' }}).populate({path: 'Items',populate: {path: 'subcategory', model: 'Category' }});
+            // Format dates for all orders
+    const formattedOrders = purchaseOrders.map(order => {
+        const date = order.date ? new Date(order.date) : null;
+        return {
+          ...order.toObject(),
+          date: date ? date.toISOString().split('T')[0] : null // Extract date in YYYY-MM-DD format or null
+        };
+      });
+        res.status(200).json(formattedOrders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -24,11 +37,17 @@ exports.getAllPurchaseOrders = async (req, res) => {
 // Get a Purchase Order by ID
 exports.getPurchaseOrderById = async (req, res) => {
     try {
-        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('Items');
+        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('Items').populate({path: 'Items',populate: {path: 'category', model: 'Category' }}).populate({path: 'Items',populate: {path: 'subcategory', model: 'Category' }});;
         if (!purchaseOrder) {
             return res.status(404).json({ message: 'Purchase Order not found' });
         }
-        res.status(200).json(purchaseOrder);
+            // Format the date for the single order
+        const date = purchaseOrder.date ? new Date(purchaseOrder.date) : null;
+        const formattedOrder = {
+        ...purchaseOrder.toObject(),
+        date: date ? date.toISOString().split('T')[0] : null // Extract date in YYYY-MM-DD format or null
+        };
+        res.status(200).json(formattedOrder);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -41,7 +60,12 @@ exports.updatePurchaseOrder = async (req, res) => {
         if (!purchaseOrder) {
             return res.status(404).json({ message: 'Purchase Order not found' });
         }
-        res.status(200).json(purchaseOrder);
+            // Format dates for all orders
+        const formattedOrder = {
+            ...purchaseOrder.toObject(),
+            date: new Date(purchaseOrder.date).toISOString().split('T')[0] // Extract date in YYYY-MM-DD format
+        };
+        res.status(200).json(formattedOrder);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
