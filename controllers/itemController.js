@@ -88,17 +88,52 @@ const getItemById = async (req, res) => {
 };
 
 // Update an item by ID
+// const updateItemById = async (req, res) => {
+//   try {
+//     const item = await AllItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     if (!item) {
+//       return res.status(404).json({ message: 'Item not found' });
+//     }
+//     res.status(200).json(item);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
 const updateItemById = async (req, res) => {
   try {
-    const item = await AllItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!item) {
-      return res.status(404).json({ message: 'Item not found' });
-    }
-    res.status(200).json(item);
+      const postId = req.params.id;
+      const { name,price,description,category,subcategory } = req.body;
+
+      let post = await AllItem.findById(postId);
+
+      if (!post) {
+          return res.status(404).send({ success: false, msg: 'Post not found' });
+      }
+      post.name = name || post.name;
+      post.price = price || post.price;
+      post.description = description || post.description;
+      post.category = category || post.category;
+      post.subcategory = subcategory || post.subcategory;
+
+      if (req.file) {
+          const image = req.file;
+
+          const imagePath = {
+            path: image.path,
+            url: `https://tracking-backend-ull9.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
+        };
+
+          post.image = imagePath;
+      }
+      const updatedPost = await post.save();
+
+      res.status(200).send({ success: true, msg: 'Post updated successfully', data: updatedPost });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+      res.status(400).send({ success: false, msg: error.message });
   }
-};
+}
+
 
 // Delete an item by ID
 const deleteItemById = async (req, res) => {
