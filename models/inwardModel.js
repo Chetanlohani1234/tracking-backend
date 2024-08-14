@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 
 const inward = mongoose.Schema({
+    invoiceNumber:{
+       type:String,
+    },
     supplier:{
         type: mongoose.Schema.ObjectId,
         ref: "Supplier"
