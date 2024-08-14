@@ -37,7 +37,7 @@ exports.getAllPurchaseOrders = async (req, res) => {
 // Get a Purchase Order by ID
 exports.getPurchaseOrderById = async (req, res) => {
     try {
-        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});;
+        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('items.itemId').populate({path:'items.itemId',populate: {path: 'uom', model: 'UOM' }}).populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});;
         if (!purchaseOrder) {
             return res.status(404).json({ message: 'Purchase Order not found' });
         }
