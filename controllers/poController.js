@@ -56,7 +56,7 @@ exports.getPurchaseOrderById = async (req, res) => {
 // Update a Purchase Order
 exports.updatePurchaseOrder = async (req, res) => {
     try {
-        const purchaseOrder = await PurchaseOrder.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('supplier').populate('Items');
+        const purchaseOrder = await PurchaseOrder.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('supplier').populate('items');
         if (!purchaseOrder) {
             return res.status(404).json({ message: 'Purchase Order not found' });
         }
