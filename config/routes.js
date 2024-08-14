@@ -6,6 +6,7 @@ module.exports.set_routes = (app) => {
      const allItem = require("../routes/itemRoute.js");
      const inward = require("../routes/inwardRoute.js");
      const po = require("../routes/poRoute.js");
+     const uom = require("../routes/uomRoute.js");
 
      app.use("/api/user", users);
      app.use("/api/consumer",allUserData);
@@ -14,5 +15,6 @@ module.exports.set_routes = (app) => {
      app.use("/api/item",allItem);
      app.use("/api/inward",inward);
      app.use("/api/po",po);
+     app.use("/api/uom",uom);
 
 }
