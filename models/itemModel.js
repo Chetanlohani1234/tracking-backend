@@ -10,6 +10,10 @@ const itemSchema = mongoose.Schema({
     description:{
         type:String,
     },
+    uom:{
+        type : mongoose.Schema.ObjectId,
+        ref : "UOM"
+      },
     category:{
       type : mongoose.Schema.ObjectId,
       ref : "Category"

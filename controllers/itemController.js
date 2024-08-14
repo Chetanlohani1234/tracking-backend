@@ -17,6 +17,7 @@ const createItem = async (req, res) => {
           name: req.body.name,
           price: req.body.price,
           description: req.body.description,
+          uom: req.body.uom,
           category: req.body.category,
           subcategory: req.body.subcategory,
       });
@@ -67,7 +68,7 @@ const createItem = async (req, res) => {
 
 const getItems = async (req, res) => {
   try {
-    const items = await AllItem.find().populate("category").populate("subcategory"); // Retrieve all items from the database
+    const items = await AllItem.find().populate("category").populate("subcategory").populate("uom"); // Retrieve all items from the database
     res.status(200).json(items); // Respond with the retrieved items and a 200 OK status
   } catch (error) {
     res.status(500).json({ error: error.message }); // Respond with a 500 Internal Server Error status if an error occurs
@@ -103,7 +104,7 @@ const getItemById = async (req, res) => {
 const updateItemById = async (req, res) => {
   try {
       const postId = req.params.id;
-      const { name,price,description,category,subcategory } = req.body;
+      const { name,price,description,uom,category,subcategory } = req.body;
 
       let post = await AllItem.findById(postId);
 
@@ -113,6 +114,7 @@ const updateItemById = async (req, res) => {
       post.name = name || post.name;
       post.price = price || post.price;
       post.description = description || post.description;
+      post.uom = uom || post.uom;
       post.category = category || post.category;
       post.subcategory = subcategory || post.subcategory;
 
