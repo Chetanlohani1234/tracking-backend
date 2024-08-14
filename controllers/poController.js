@@ -19,7 +19,7 @@ exports.createPurchaseOrder = async (req, res) => {
 // Get all Purchase Orders
 exports.getAllPurchaseOrders = async (req, res) => {
     try {
-        const purchaseOrders = await PurchaseOrder.find().populate('supplier').populate('Items').populate({path: 'Items',populate: {path: 'category', model: 'Category' }}).populate({path: 'Items',populate: {path: 'subcategory', model: 'Category' }});
+        const purchaseOrders = await PurchaseOrder.find().populate('supplier').populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});
             // Format dates for all orders
     const formattedOrders = purchaseOrders.map(order => {
         const date = order.date ? new Date(order.date) : null;
@@ -37,7 +37,7 @@ exports.getAllPurchaseOrders = async (req, res) => {
 // Get a Purchase Order by ID
 exports.getPurchaseOrderById = async (req, res) => {
     try {
-        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('Items').populate({path: 'Items',populate: {path: 'category', model: 'Category' }}).populate({path: 'Items',populate: {path: 'subcategory', model: 'Category' }});;
+        const purchaseOrder = await PurchaseOrder.findById(req.params.id).populate('supplier').populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});;
         if (!purchaseOrder) {
             return res.status(404).json({ message: 'Purchase Order not found' });
         }

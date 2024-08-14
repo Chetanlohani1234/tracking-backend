@@ -1,5 +1,41 @@
 const mongoose = require("mongoose")
 
+const OrderItemSchema = mongoose.Schema({
+    itemId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'AllItem', // Assuming you have an Item model
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    unitPrice: {
+      type: Number,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    taxPercent: {
+      type: Number,
+      required: true
+    },
+    taxAmount: {
+      type: Number,
+      required: true
+    },
+    total: {
+      type: Number,
+      required: true
+    }
+  });
+
 const po = mongoose.Schema({
     supplier:{
         type: mongoose.Schema.ObjectId,
@@ -8,10 +44,11 @@ const po = mongoose.Schema({
     date:{
         type:Date,
     },
-    Items:[{
-        type:mongoose.Schema.ObjectId,
-        ref:"AllItem"
-    }]
+    items: [OrderItemSchema],
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
 
 },
 {timestamps:true}
