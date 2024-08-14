@@ -3,8 +3,12 @@ const Inward = require('../models/inwardModel');
 // Create a new Purchase Order
 const createInward = async (req, res) => {
   try {
-    const { supplier, date, vehicleNumber } = req.body;
-    const newOrder = new Inward({ supplier, date, vehicleNumber });
+    const { invoiceNumber,supplier, date, vehicleNumber } = req.body;
+    // Ensure invoiceNumber is included
+      if (!invoiceNumber) {
+        return res.status(400).json({ message: "Invoice number is required" });
+      }
+    const newOrder = new Inward({ invoiceNumber,supplier, date, vehicleNumber });
     await newOrder.save();
     // Format dates for all orders
         // Format the date
@@ -58,8 +62,12 @@ const getInwardById = async (req, res) => {
 // Update a Purchase Order
 const updateInward = async (req, res) => {
   try {
-    const { supplier, date, vehicleNumber } = req.body;
-    const updatedOrder = await Inward.findByIdAndUpdate(req.params.id, { supplier, date, vehicleNumber }, { new: true });
+    const { invoiceNumber,supplier, date, vehicleNumber } = req.body;
+    const updatedOrder = await Inward.findByIdAndUpdate(req.params.id, { invoiceNumber,supplier, date, vehicleNumber }, { new: true });
+      // Ensure invoiceNumber is included
+      if (!invoiceNumber) {
+        return res.status(400).json({ message: "Invoice number is required" });
+      }
     if (!updatedOrder) return res.status(404).json({ message: 'Order not found' });
     // Format dates for all orders
     const formattedOrder = {
