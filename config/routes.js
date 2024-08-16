@@ -7,6 +7,7 @@ module.exports.set_routes = (app) => {
      const inward = require("../routes/inwardRoute.js");
      const po = require("../routes/poRoute.js");
      const uom = require("../routes/uomRoute.js");
+     const grn = require("../routes/grnRoute.js");
 
      app.use("/api/user", users);
      app.use("/api/consumer",allUserData);
@@ -16,5 +17,6 @@ module.exports.set_routes = (app) => {
      app.use("/api/inward",inward);
      app.use("/api/po",po);
      app.use("/api/uom",uom);
+     app.use("/api/grn",grn);
 
 }

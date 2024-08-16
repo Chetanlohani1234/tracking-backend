@@ -33,6 +33,14 @@ const OrderItemSchema = mongoose.Schema({
     total: {
       type: Number,
       required: true
+    },
+    pending: {
+      type: Number,
+      default: 0
+    },
+    receive: {
+      type: Number,
+      default: 0
     }
   });
 
