@@ -7,7 +7,9 @@ const app = express();
 app.post('/add', Controller.createPurchaseOrder);
 app.get('/getAll', Controller.getAllPurchaseOrders);
 app.get('/getById/:id', Controller.getPurchaseOrderById);
-app.put('/updateById/:id', Controller.updatePurchaseOrder);
+app.post('/updateById/:id', Controller.updatePurchaseOrder);
+
+
 app.delete('/delete/:id', Controller.deletePurchaseOrder);
 
 module.exports = (app);

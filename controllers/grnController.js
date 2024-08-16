@@ -39,7 +39,7 @@ const {updatePurchaseOrder} = require('../controllers/poController.js')
 
 exports.createGRN = async (req, res) => {
     try {
-        const { invoice, id, items } = req.body;
+        const { invoice, poId, items } = req.body;
 
         // Validate the request body
         if (!Array.isArray(items) || items.length === 0) {
@@ -63,14 +63,14 @@ exports.createGRN = async (req, res) => {
 
         const grn = new GRN({
             invoice,
-            id,
+            poId,
             items: grnItems
         });
 
         const savedGrn = await grn.save();
 
         // Update the Purchase Order based on the GRN items
-        await updatePurchaseOrder(id, grnItems);
+        await updatePurchaseOrder(poId, grnItems);
 
         return res.status(201).json({
             message: 'GRN created successfully',
