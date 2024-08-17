@@ -217,6 +217,32 @@ exports.getPurchaseOrderById = async (req, res) => {
 
 // Update a Purchase Order
 
+exports.updatePO = async (req, res) => {
+    try {
+        const { id } = req.params; // Assuming the PO ID is passed in the request URL as a parameter
+
+        // Find the purchase order by ID and update it with the new data
+        const updatedPurchaseOrder = await PurchaseOrder.findByIdAndUpdate(
+            id,
+            req.body, 
+            { new: true, runValidators: true } // Options: return the updated document and run validation
+        );
+
+        if (!updatedPurchaseOrder) {
+            return res.status(404).json({ message: "Purchase Order not found" });
+        }
+
+        // Format the date
+        const formattedOrder = {
+            ...updatedPurchaseOrder.toObject(),
+            date: new Date(updatedPurchaseOrder.date).toISOString().split('T')[0] // Extract date in YYYY-MM-DD format
+        };
+
+        res.status(200).json(formattedOrder);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
 
 const updatePurchaseOrder = async (purchaseOrderId, grnItems) => {

@@ -9,6 +9,8 @@ app.get('/getAll', Controller.getAllPurchaseOrders);
 app.get('/getById/:id', Controller.getPurchaseOrderById);
 app.post('/updateById/:id', Controller.updatePurchaseOrder);
 
+app.put('/updatePo/:id',Controller.updatePO);
+
 
 app.delete('/delete/:id', Controller.deletePurchaseOrder);
 

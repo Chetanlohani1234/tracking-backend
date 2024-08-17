@@ -21,7 +21,7 @@ const GRNItemSchema = mongoose.Schema({
 const GRNSchema = new mongoose.Schema({
     invoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Inward', required: true },
     items: [GRNItemSchema],
-    id: { type: mongoose.Schema.Types.ObjectId, ref: 'PurchaseOrder', required: true },
+    poId: { type: mongoose.Schema.Types.ObjectId, ref: 'PurchaseOrder', required: true },
     
 },
 {timestamps:true}
