@@ -16,7 +16,7 @@ const createGRN = async (req, res) => {
 // Get all GRNs
 const getAllGRNs = async (req, res) => {
     try {
-        const grns = await directgrn.find().populate('invoice').populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});
+        const grns = await directgrn.find().populate('invoice').populate({path: 'invoice',populate: {path: 'supplier', model: 'Supplier' }}).populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});
         res.json(grns);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -26,7 +26,7 @@ const getAllGRNs = async (req, res) => {
 // Get a specific GRN by ID
 const getGRNById = async (req, res) => {
     try {
-        const grn = await directgrn.findById(req.params.id).populate('invoice').populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});
+        const grn = await directgrn.findById(req.params.id).populate('invoice').populate({path: 'invoice',populate: {path: 'supplier', model: 'Supplier' }}).populate('items.itemId').populate({path: 'items.itemId',populate: {path: 'category', model: 'Category' }}).populate({path: 'items.itemId',populate: {path: 'subcategory', model: 'Category' }});
         if (!grn) return res.status(404).json({ message: 'GRN not found' });
         res.json(grn);
     } catch (err) {
