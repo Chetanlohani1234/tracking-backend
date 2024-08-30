@@ -9,6 +9,7 @@ module.exports.set_routes = (app) => {
      const uom = require("../routes/uomRoute.js");
      const grn = require("../routes/grnRoute.js");
      const directgrn = require("../routes/directgrnRoute.js");
+     const combinedData = require("../routes/combinedData.js")
 
      app.use("/api/user", users);
      app.use("/api/consumer",allUserData);
@@ -20,5 +21,6 @@ module.exports.set_routes = (app) => {
      app.use("/api/uom",uom);
      app.use("/api/grn",grn);
      app.use("/api/direct/grn",directgrn);
+     app.use("/api/grn-data",combinedData);
 
 }
