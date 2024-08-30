@@ -41,7 +41,7 @@ router.get("/combined", async (req, res) => {
 
 
 // Route to get combined data by ID
-router.get("/combined/:id", async (req, res) => {
+router.get("/combinedById/:id", async (req, res) => {
     try {
       const { id } = req.params; // Extract the ID from the request parameters
   
