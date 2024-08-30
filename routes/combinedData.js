@@ -74,4 +74,29 @@ router.get("/combinedById/:id", async (req, res) => {
     }
   });
 
+  router.delete('/combinedByIdDelete/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Extract the ID from the request parameters
+      
+      // Delete the GRN document if it exists
+      const grnResult = await GRN.findByIdAndDelete(id);
+  
+      // Delete the DirectGRN document if it exists
+      const directGrnResult = await DirectGRN.findByIdAndDelete(id);
+  
+      // Check if either of the documents was found and deleted
+      if (grnResult || directGrnResult) {
+        res.status(200).json({ 
+          message: 'Data deleted successfully',
+          deletedGRN: grnResult,
+          deletedDirectGRN: directGrnResult 
+        });
+      } else {
+        res.status(404).json({ message: 'Data not found in either collection' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 module.exports = router;
